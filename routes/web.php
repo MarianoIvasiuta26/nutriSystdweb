@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,11 +15,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 //Rutas de autenticación de usuarios
-Route::view('/login', "login")->name('login');
-Route::view('/registro', "register")->name('registro');
+Route::view('/login', "auth.login")->name('login');
+Route::view('/registro', "auth.register")->name('registro');
 Route::post('/validar-registro', [AuthController::class, 'register'])->name('validar-registro');
 Route::post('inicia-sesion',[AuthController::class, 'login'])->name('inicia-sesion');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+
 
 
 Route::get('/', function () {
