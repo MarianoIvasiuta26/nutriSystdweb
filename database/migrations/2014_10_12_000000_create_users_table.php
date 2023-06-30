@@ -21,9 +21,6 @@ return new class extends Migration
             $table->string('apellido');
             $table->string('email')->unique();
             $table->string('telefono');
-            $table->date('fecha_nacimiento');
-            $table->integer('edad');
-            $table->boolean('sexo');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
@@ -165,6 +162,9 @@ return new class extends Migration
         Schema::create('historia_clinica', function(Blueprint $table) {
             $table->id();
             $table->foreignId('users_id')->constrained('users');
+            $table->date('fecha_nacimiento');
+            $table->integer('edad');
+            $table->boolean('sexo');
             $table->foreignId('dias_adelantamiento_user_id')->constrained('dias_adelantamiento_user');
             $table->foreignId('horas_adelantamiento_user_id')->constrained('horas_adelantamiento_user');
             $table->double('altura');
