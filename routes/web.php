@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,10 +15,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//Rutas de autenticación de usuarios
-Route::view('/login', "auth.login")->name('login');
-Route::post('inicia-sesion',[AuthController::class, 'login'])->name('inicia-sesion');
-Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+// Rutas de autenticación de usuarios
+Route::get('/register', [RegisterController::class, 'show'])->name('registro');
+Route::post('/register', [RegisterController::class, 'register'])->name('validar-registro');
+Route::get('/login', [LoginController::class, 'show'])->name('login');
+Route::post('/login', [LoginController::class, 'login'])->name('validar-login');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+});
 
 
 
@@ -26,8 +33,9 @@ Route::get('/', function () {
     return view('inicio');
 });
 
-Route::get('/register', [RegisterController::class, 'show'])->name('registro');
 
-Route::post('/register', [RegisterController::class, 'register'])->name('validar-registro');
+
+
+
 
 

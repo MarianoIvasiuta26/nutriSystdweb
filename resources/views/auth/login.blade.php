@@ -7,23 +7,31 @@
     <title>Iniciar sesión</title>
 </head>
 <body>
-    <form method="POST" action="{{ route('inicia-sesion') }}">
+    <form method="POST" action="{{ route('validar-login') }}">
         @csrf
+
         <div>
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required autofocus>
+            <label for="email">Correo electrónico:</label>
+            <input type="email" name="email" id="email" required autofocus>
         </div>
+
         <div>
             <label for="password">Contraseña:</label>
-            <input type="password" id="password" name="password" required>
+            <input type="password" name="password" id="password" required>
         </div>
+
         <div>
-            <input type="checkbox" id="remember" name="remember">
-            <label for="remember">Recuérdame</label>
+            <input type="checkbox" name="remember" id="remember">
+            <label for="remember">Recordarme</label>
         </div>
+
         <div>
             <button type="submit">Iniciar sesión</button>
         </div>
+
+
+
     </form>
 </body>
 </html>
+
