@@ -15,8 +15,8 @@
             background-position: center;
             height: 100vh;
             display: flex;
-            justify-content: center;
-            align-items: center;
+            justify-content: right;
+            align-items: right;
             position: relative;
         }
 
@@ -25,11 +25,27 @@
             flex-direction: column;
             align-items: center;
         }
+        .titulo {
+            position: absolute;
+            top: 10%;
+            left: 75%;
+            transform: translate(-50%, -50%);
+            font-size: 50px;
+            color: white;
+            text-align: center;
+            width: 500px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            background-color: rgba(65, 59, 59, 0.25); /* Color de fondo con transparencia */
+            backdrop-filter: blur(10px); /* Efecto de desenfoque */
+            border-radius: 10px; /* Borde redondeado */
+            padding: 20px; /* Espacio interno */
+        }
 
         .button-container {
             display: flex;
             justify-content: center;
-            margin-top: 20px; /* Ajuste para separar los botones del texto */
+            margin-top: 50%; /* Ajuste para separar los botones del texto */
+            margin-right: 90%
         }
 
         .button {
@@ -49,8 +65,16 @@
         }
 
         .button:hover {
+            background-color: #45a049;
             transform: scale(1.1);
-            box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .register-button {
+            background-color: #2196F3;
+        }
+
+        .login-button {
+            background-color: #f44336;
         }
 
         .button img {
@@ -64,16 +88,6 @@
             color: rgba(0, 0, 0, 0.8);
         }
 
-        .message {
-            position: absolute;
-            top: 30%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 50px; /* Ajuste para el tamaño del texto */
-            color: white;
-            text-align: center;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        }
         a {
             text-decoration: none;
         }
@@ -81,8 +95,22 @@
 </head>
 <body>
 <div class="container">
-    <div class="message">NutriSoft - Sistema de Gestión Nutricional</div>
-   
+    <div class="titulo">NutriSoft</div>
+
+    <div class="button-container">
+        <a href="{{route('registro')}}" class="button register-button">
+            <img src="{{asset('img/plan.png')}}" alt="Registro">
+            <span>Registrarse</span>
+        </a>
+
+        <a href="{{route('login')}}" class="button login-button">
+            <img src="{{asset('img/salud.png')}}" alt="Login">
+            <span>Iniciar sesión</span>
+        </a>
+    </div>
+
+
+
 </div>
 </body>
 </html>
