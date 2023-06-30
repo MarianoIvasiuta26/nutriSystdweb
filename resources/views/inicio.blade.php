@@ -70,11 +70,11 @@
         }
 
         .register-button {
-            background-color: #2196F3;
+            background-color: #5fceb2;
         }
 
         .login-button {
-            background-color: #f44336;
+            background-color: #f48b36;
         }
 
         .button img {

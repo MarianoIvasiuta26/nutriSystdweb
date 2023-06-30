@@ -182,9 +182,10 @@ return new class extends Migration
             $table->timestamps();
         });
 
+        /*
         Schema::table('users', function (Blueprint $table) {
             $table->foreignId('historia_clinica_id')->constrained('historia_clinica');
-        });
+        });*/
     }
 
     /**
