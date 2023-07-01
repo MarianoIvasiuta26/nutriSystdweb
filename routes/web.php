@@ -20,6 +20,8 @@ Route::get('/register', [RegisterController::class, 'show'])->name('registro');
 Route::post('/register', [RegisterController::class, 'register'])->name('validar-registro');
 Route::get('/login', [LoginController::class, 'show'])->name('login');
 Route::post('/login', [LoginController::class, 'login'])->name('validar-login');
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', function () {
