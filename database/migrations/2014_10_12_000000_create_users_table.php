@@ -55,7 +55,7 @@ return new class extends Migration
 
         Schema::create('objetivo_salud', function(Blueprint $table) {
             $table->id();
-            $table->string('objetivos_salud');
+            $table->integer('objetivos_salud');
             $table->timestamps();
         });
 

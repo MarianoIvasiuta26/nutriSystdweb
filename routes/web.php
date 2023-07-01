@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\TurnoController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,6 +30,10 @@ Route::middleware(['auth'])->group(function () {
     })->name('dashboard');
 });
 
+//Rutas del Paciente
+Route::middleware(['auth'])->group(function () {
+    Route::resource('turnos', TurnoController::class)->names('paciente.turnos');
+});
 
 
 Route::get('/', function () {
