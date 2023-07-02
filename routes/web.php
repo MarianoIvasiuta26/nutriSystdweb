@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HistoriaClinicaController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\TurnoController;
@@ -34,10 +35,16 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['auth'])->group(function () {
 
     Route::get('turnos-disponibles', [TurnoController::class, 'showTurnosDisponibles'])->name('turnos-disponibles');
-
+    Route::get('historia-clinica', [HistoriaClinicaController::class, 'comprobarHC'])->name('historia-clinica');
     Route::get('mi-historia-clinica', function(){
         return view('historia_clinica.index');
     })->name('mi-historia-clinica');
+
+    Route::get('completar-historia-clinica', function(){
+        return view('historia_clinica.create');
+    })->name('completar-historia-clinica');
+
+    Route::post('completar-historia-clinica', [HistoriaClinicaController::class, 'validar_HC'])->name('validar-HC');
 
     Route::get('editar-perfil', function () {
         return view('paciente.edit');

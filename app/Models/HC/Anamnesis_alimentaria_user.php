@@ -9,7 +9,8 @@ class Anamnesis_alimentaria_user extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'anamnesis_alimentaria_id',
         'user_id',
+        'gustos',
+        'alimentos_rechazados',
     ];
 }

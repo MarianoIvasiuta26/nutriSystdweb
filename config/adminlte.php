@@ -323,7 +323,7 @@ return [
         ],
         [
             'text'        => 'Mi Historia Clínica',
-            'url'         => 'mi-historia-clinica',
+            'url'         => 'historia-clinica',
             'icon'        => 'far fa-fw fa-file',
             'label'       => 4,
             'label_color' => 'success',
