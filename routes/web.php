@@ -32,8 +32,19 @@ Route::middleware(['auth'])->group(function () {
 
 //Rutas del Paciente
 Route::middleware(['auth'])->group(function () {
-    Route::resource('turnos', TurnoController::class)->names('paciente.turnos');
+
+    Route::get('turnos-disponibles', [TurnoController::class, 'showTurnosDisponibles'])->name('turnos-disponibles');
+
+    Route::get('mi-historia-clinica', function(){
+        return view('historia_clinica.index');
+    })->name('mi-historia-clinica');
+
+    Route::get('editar-perfil', function () {
+        return view('paciente.edit');
+    })->name('editar-perfil');
 });
+
+
 
 
 Route::get('/', function () {

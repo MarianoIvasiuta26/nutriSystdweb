@@ -3,83 +3,66 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Dias_atencion;
+use App\Models\Horas_consultas_maniana;
+use App\Models\Horas_consultas_tarde;
+use App\Models\Turno;
 use Illuminate\Http\Request;
 
 class TurnoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+
+    public function showTurnosDisponibles()
     {
-        //
+
+        if($dias = Turno::whereIn('estado', [NULL])->pluck('fecha')){
+            $diasTurnos = Dias_atencion::all('dia_semana');
+            if($horas = Turno::whereIn('estado', [NULL])->pluck('hora')){
+                $horasTurnosManiana = Horas_consultas_maniana::all('horas_maniana');
+                $horasTurnosTarde = Horas_consultas_tarde::all('horas_tarde');
+            }
+        }elseif($dias = Turno::whereIn('estado', ['Cancelado'])->pluck('fecha')) {
+            $diasTurnos = Dias_atencion::whereIn('dia_semana', $dias)->get();
+            if($horas = Turno::whereIn('estado', ['Cancelado'])->pluck('hora')){
+                $horasTurnosManiana = Horas_consultas_maniana::whereIn('horas_maniana', $horas)->get();
+                $horasTurnosTarde = Horas_consultas_tarde::whereIn('horas_tarde', $horas)->get();
+            }
+        }
+
+        $turnosDisponibles = [];
+
+        foreach ($diasTurnos as $dia) {
+            $horasDisponibles = [];
+
+            foreach ($horasTurnosManiana as $hora) {
+                $horasDisponibles[] = $hora->horas_maniana;
+            }
+
+            foreach ($horasTurnosTarde as $hora) {
+                $horasDisponibles[] = $hora->horas_tarde;
+            }
+
+            $turnosDisponibles[] = [
+                'dia' => $dia->dia_semana,
+                'horas' => $horasDisponibles,
+            ];
+        }
+
+        return view('turnos.turnos-disponibles', ['turnosDisponibles' => $turnosDisponibles]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+    public function showTurnosPendiente(){
+        return view('turnos.turnos-pendientes');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+    public function formSolicitudTurno(){
+        return view('turnos.solicitud-turno');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+    public function solicitarTurno(Request $request){
+        $turno = Turno::create($request->validated());
+
+        return redirect(route('login'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }
