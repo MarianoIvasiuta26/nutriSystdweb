@@ -31,24 +31,28 @@ Route::middleware(['auth'])->group(function () {
     })->name('dashboard');
 });
 
+
+
 //Rutas del Paciente
 Route::middleware(['auth'])->group(function () {
 
     Route::get('turnos-disponibles', [TurnoController::class, 'showTurnosDisponibles'])->name('turnos-disponibles');
+    Route::get('horas-disponibles/{fecha}', [TurnoController::class, 'showHorasDisponibles']);
     Route::get('historia-clinica', [HistoriaClinicaController::class, 'comprobarHC'])->name('historia-clinica');
     Route::get('mi-historia-clinica', function(){
         return view('historia_clinica.index');
     })->name('mi-historia-clinica');
 
+    //Rutas completar HC
     Route::get('completar-historia-clinica', function(){
         return view('historia_clinica.create');
     })->name('completar-historia-clinica');
-
     Route::post('completar-historia-clinica', [HistoriaClinicaController::class, 'validar_HC'])->name('validar-HC');
-
     Route::get('editar-perfil', function () {
         return view('paciente.edit');
     })->name('editar-perfil');
+    Route::get('dias', [DiaController::class, 'showDia'])->name('dia');
+    Route::get('horas', [HoraController::class, 'showHora'])->name('hora');
 });
 
 

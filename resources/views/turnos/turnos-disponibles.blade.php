@@ -9,6 +9,7 @@
 @section('content')
     <h1>Turnos Disponibles</h1>
 
+    {{--
     @if (count($turnosDisponibles) > 0)
         <div class="table-responsive">
             @foreach ($turnosDisponibles as $turno)
@@ -43,11 +44,56 @@
     @else
         <p>No hay turnos disponibles en este momento.</p>
     @endif
+
+    --}}
+
+    @if (count($turnosDisponibles) > 0)
+        <div class="turnos-disp">
+                <form action="{{route('turnos-disponibles')}}" method="POST">
+                    @csrf
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col">
+                                <label for="paciente">Paciente:</label>
+                                <input type="text" name="paciente" id="paciente" value="{{ $paciente }}" readonly>
+                            </div>
+
+                            <div class="col">
+                                <label for="tipo-consulta">Tipo de consulta:</label>
+                                <select name="tipo-consulta" id="tipo-consulta">
+                                    @foreach ($tiposConsulta as $tipo)
+                                        <option value="{{ $tipo->id }}">{{ $tipo->tipo_consulta }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col">
+                                <label for="fecha">Fecha:</label>
+                                <input type="date" name="fecha" id="fecha" onchange="actualizarHorasDisponibles()">
+                            </div>
+
+                            <div class="col">
+                                <div id="horasDisp">
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+        </div>
+    @endif
 @stop
 
 @section('css')
     <link rel="stylesheet" href="/css/admin_custom.css">
     <style>
+
+        .turnos-disp{
+            background-color: #212529;
+        }
         .table {
             width: 100%;
             margin-bottom: 1rem;
@@ -96,9 +142,51 @@
 
 @section('js')
     <script>
-        function solicitarTurno(dia, hora) {
-            // Lógica para solicitar el turno para el día y hora seleccionados
-            console.log('Solicitar turno para el día: ' + dia + ', hora: ' + hora);
+        function actualizarHorasDisponibles() {
+            const fechaSeleccionada = document.getElementById('fecha').value;
+
+            // Realizar la solicitud AJAX para obtener las horas disponibles
+            $.ajax({
+                url: `/horas-disponibles/${fechaSeleccionada}`,
+                type: 'GET',
+                success: function (horasDisponibles) {
+                    mostrarHorasDisponibles(horasDisponibles);
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+
+        function mostrarHorasDisponibles(horasDisponibles) {
+            const horasDiv = document.getElementById('horasDisp');
+            horasDiv.innerHTML = '';
+
+            if (Array.isArray(horasDisponibles)) {
+                const tituloHoras = document.createElement('h3');
+                tituloHoras.textContent = 'Horas Disponibles:';
+                horasDiv.appendChild(tituloHoras);
+
+                horasDisponibles.forEach(hora => {
+                    const btn = document.createElement('button');
+                    btn.textContent = hora;
+                    btn.className = 'btn btn-primary';
+                    btn.onclick = function() {
+                        solicitarTurno(this.textContent);
+                    };
+
+                    horasDiv.appendChild(btn);
+                });
+            } else {
+                const tituloHoras = document.createElement('h3');
+                tituloHoras.textContent = 'No hay horas disponibles para la fecha seleccionada.';
+                horasDiv.appendChild(tituloHoras);
+            }
+        }
+
+        function solicitarTurno(hora) {
+            // Lógica para solicitar el turno para la hora seleccionada
+            console.log('Solicitar turno para la hora: ' + hora);
         }
     </script>
 @stop

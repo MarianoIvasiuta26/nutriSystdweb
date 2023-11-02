@@ -1,7 +1,7 @@
 
 @extends('adminlte::page')
 
-@section('title', 'NutriSoft - Editar perfil')
+@section('title', 'NutriSoft - Mi Historia Clínica')
 
 @section('content_header')
 
@@ -9,6 +9,13 @@
 
 @section('content')
     <h1>Historia Clínica</h1>
+
+    @if (!$hc)
+        <h5>¿Todavía no completaste tu Historia Clínica?</h5>
+        <p>Complétalo en el siguiente enlace: </p>
+        <a href="{{ route('completar-historia-clinica') }}">Completar Historia Clínica</a>
+
+    @endif
 
 @stop
 

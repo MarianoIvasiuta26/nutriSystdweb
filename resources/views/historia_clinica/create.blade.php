@@ -1,98 +1,145 @@
-
 @extends('adminlte::page')
 
-@section('title', 'NutriSoft - Completar Historia clínica')
+@section('title', 'NutriSoft - Turnos disponibles')
 
 @section('content_header')
 
 @stop
 
 @section('content')
-    <h1>Completar Historia clínica</h1>
+<div class="form-container">
+    <h2 class="form-title">Completar Historia Clínica</h2>
+    <form action="{{ route('validar-HC') }}" method="POST">
+        @csrf
 
-    <div class="form-container">
-        <h2 class="form-title">Registro de Usuarios</h2>
-        <form action="{{ route('validar-registro') }}" method="POST">
-            @csrf
-            <div class="form-group">
-                <label for="tipo_usuario" class="form-label">Tipo de usuario:</label>
-                <div class="radios">
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" id="tipo_usuario_nutri" name="tipo_usuario" value="1" required disabled>
-                        <label class="form-check-label" for="tipo_usuario_nutri">Nutricionista</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" id="tipo_usuario_paciente" name="tipo_usuario" value="2" required checked>
-                        <label class="form-check-label" for="tipo_usuario_paciente">Paciente</label>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <div class="form-group">
-                        <label for="dni" class="form-label">DNI:</label>
-                        <input type="text" class="form-control" id="dni" name="dni" required>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="form-group">
-                        <label for="nombre" class="form-label">Nombre:</label>
-                        <input type="text" class="form-control" id="nombre" name="nombre" required>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="form-group">
-                        <label for="apellido" class="form-label">Apellido:</label>
-                        <input type="text" class="form-control" id="apellido" name="apellido" required>
+        <!-- Sección 1 -->
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="sexo" class="form-label">Sexo:</label>
+                    <div class="radios">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="sexo_fem" name="sexo" value="1" required>
+                            <label class="form-check-label" for="sexo_fem">Femenino</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="sexo_masc" name="sexo" value="2" required>
+                            <label class="form-check-label" for="sexo_masc">Masculino</label>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="form-group">
-                <label for="email" class="form-label">Correo electrónico:</label>
-                <input type="email" class="form-control" id="email" name="email" required>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <div class="form-group">
-                        <label for="telefono" class="form-label">Teléfono:</label>
-                        <input type="text" class="form-control" id="telefono" name="telefono" required>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="form-group">
-                        <label for="password" class="form-label">Contraseña:</label>
-                        <input type="password" class="form-control" id="password" name="password" required>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="form-group">
-                        <label for="password_confirmation" class="form-label">Confirmar contraseña:</label>
-                        <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" required>
-                    </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="fecha_nac" class="form-label">Fecha Nacimiento:</label>
+                    <input type="date" class="form-control" id="fecha_nac" name="fecha_nac" required>
                 </div>
             </div>
-            <br>
-            <div class="row">
-                <div class="col text-center">
-                    <button type="button" class="btn btn-danger">Cancelar</button>
-                </div>
-                <div class="col text-center">
-                    <button type="submit" class="btn btn-primary">Registrarse</button>
-                </div>
-            </div>
-        </form>
-    </div>
+        </div>
 
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="edad" class="form-label">Edad:</label>
+                    <input type="number" class="form-control" id="edad" name="edad" required>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="altura" class="form-label">Altura:</label>
+                    <input type="number" class="form-control" id="altura" name="altura" required>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="peso" class="form-label">Peso:</label>
+                    <input type="number" class="form-control" id="peso" name="peso" required>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="t_cocina" class="form-label">Tiempo disponible para cocinar:</label>
+                    <input type="number" class="form-control" id="t_cocina" name="t_cocina" required>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="c_cocina" class="form-label">Cantidad de personas a cocinar:</label>
+                    <input type="number" class="form-control" id="c_cocina" name="c_cocina" required>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col text-center">
+                <button id="siguiente" onclick="irASiguiente()" type="button" class="btn btn-danger">
+                    <a href=""></a>
+                    Cancelar
+                </button>
+            </div>
+            <div class="col text-center">
+                <button id="cancelar" onclick="volver()" type="submit" class="btn btn-primary">Siguiente</button>
+            </div>
+        </div>
+
+        <!-- Sección 2 -->
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="dias_adelantamiento" class="form-label">Días adelantamiento:</label>
+
+                    <select name="dias_adelantamiento" id="dias_adelantamiento">
+                        @foreach ($dias as $dia)
+                            <option value="{{ $dia['dia'] }}">{{ $dia['dia'] }}</option>
+                        @endforeach
+                    </select>
+
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="horas_adelantamiento" class="form-label">Horas Adelantamiento:</label>
+                    <div class="horas">
+                        <select name="horas_adelantamiento" id="horas_adelantamiento">
+                            @foreach ($horas as $hora)
+                                <option value="{{ $hora['hora'] }}">{{ $hora['hora'] }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="fecha_nac" class="form-label">Fecha Nacimiento:</label>
+                    <input type="date" class="form-control" id="fecha_nac" name="fecha_nac" required>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col text-center">
+                <button id="volver" onclick="volverAtras()" type="button" class="btn btn-danger">
+                    Volver
+                </button>
+            </div>
+            <div class="col text-center">
+                <button id="siguiente2" onclick="irASiguiente()" type="submit" class="btn btn-primary">
+                    Siguiente
+                </button>
+            </div>
+        </div>
 @stop
 
 @section('css')
     <link rel="stylesheet" href="/css/admin_custom.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
     <style>
         body {
             margin: 0;
             padding: 0;
-            background-image: url('{{ asset('img/fondo-inicio.jpg') }}');
         }
 
         .form-container {
@@ -125,4 +172,15 @@
 
 @section('js')
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script>
+        function irASiguiente() {
+            // Redirige al usuario a otro apartado del formulario
+            window.location.href = 'formulario-parte2';
+        }
+
+        function volverAtras() {
+            // Redirige al usuario a la sección anterior del formulario
+            window.history.back();
+        }
+    </script>
 @stop

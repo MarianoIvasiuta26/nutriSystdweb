@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Dias_atencion;
 use App\Models\Horas_consultas_maniana;
 use App\Models\Horas_consultas_tarde;
+use App\Models\Tipo_consulta;
 use App\Models\Turno;
 use Illuminate\Http\Request;
 
@@ -48,7 +49,44 @@ class TurnoController extends Controller
             ];
         }
 
-        return view('turnos.turnos-disponibles', ['turnosDisponibles' => $turnosDisponibles]);
+        $paciente = auth()->user()->nombre;
+        $tiposConsulta = Tipo_consulta::all('tipo_consulta');
+
+        return view('turnos.turnos-disponibles', [
+            'turnosDisponibles' => $turnosDisponibles,
+            'paciente' => $paciente,
+            'tiposConsulta' => $tiposConsulta
+        ]);
+    }
+
+
+    public function showHorasDisponibles($fecha){
+        /*if(Turno::whereIn('fecha', [NULL, $fecha])->whereIn('estado', [NULL,'Cancelado'])->whereNull('hora')->exists()){
+            $horasManianaDisponibles = Horas_consultas_maniana::pluck('horas_maniana')->toArray();
+            $horasTardeDisponibles = Horas_consultas_tarde::pluck('horas_tarde')->toArray();
+
+            $horasDisponibles = array_merge($horasManianaDisponibles, $horasTardeDisponibles);
+
+            return response()->json($horasDisponibles);
+
+        } else{
+            return "No hay horarios disponibles para la fecha seleccionada";
+        }*/
+
+        $horasManianaDisponibles = Horas_consultas_maniana::pluck('horas_maniana')->toArray();
+        $horasTardeDisponibles = Horas_consultas_tarde::pluck('horas_tarde')->toArray();
+
+        $horasDisponibles = array_merge($horasManianaDisponibles, $horasTardeDisponibles);
+
+        // Verificar si hay turnos para la fecha seleccionada y filtrar las horas disponibles
+        $turnosExistentes = Turno::where('fecha', $fecha)->pluck('hora')->toArray();
+        $horasDisponibles = array_diff($horasDisponibles, $turnosExistentes);
+
+        if (count($horasDisponibles) > 0) {
+            return response()->json($horasDisponibles);
+        } else {
+            return "No hay horarios disponibles para la fecha seleccionada";
+        }
     }
 
     public function showTurnosPendiente(){

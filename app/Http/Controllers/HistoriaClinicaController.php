@@ -15,14 +15,16 @@ class HistoriaClinicaController extends Controller
         $hc = Historia_clinica::where('users_id', $user->id)->first();
 
         if ($hc) {
-            return view('dashboard', ['hc' => $hc]);
+            return view('historia_clinica.index', ['hc' => $hc]);
         } else {
             $hc = null;
-            return view('dashboard', ['hc' => $hc]);
+            return view('historia_clinica.index', ['hc' => $hc]);
         }
 
     }
     public function validar_HC(){
 
     }
+
+    
 }
